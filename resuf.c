@@ -71,7 +71,7 @@ int main(void) {
 
     printf("%s ISO Image is Selected!\n", iso);
 
-    printf("ATTENTION!!! ONCE THE PROCEDURE STARTS, EVERY SINGLE DATA ON THE SELECTED DISK WILL BE DELETED. ARE YOU SURE YOU WANT TO FORMAT DRIVE: %s? [Y/N]\n>", drive);
+    printf("ATTENTION!! ONCE THE PROCEDURE STARTS, EVERY SINGLE DATA ON THE SELECTED DISK WILL BE DELETED. ARE YOU SURE YOU WANT TO FORMAT DRIVE: %s? [Y/N]\n>", drive);
     scanf(" %c", yesno);
 
     if (*yesno != 'Y' && *yesno != 'y') {
