@@ -13,7 +13,7 @@ int main(void) {
     char drive[10] = {0};   //Store Device Name
     char iso[100] = {0};    //Store ISO Path
 
-    char *yesno = (char*)malloc(sizeof(char));
+    char *yesno = (char*)malloc(sizeof(char)); //malloc for User's Input
 
     int usb_fd; //File Descriptor for Device
     int iso_fd; //File Descripto for ISO
@@ -32,7 +32,7 @@ int main(void) {
 
     if (pid == 0) { //Child Process
 
-        execlp("lsblk", "lsblk", NULL);
+        execlp("sh", "sh", "-c", "clear && lsblk", NULL);
 
     }
 
@@ -71,7 +71,7 @@ int main(void) {
 
     printf("%s ISO Image is Selected!\n", iso);
 
-    printf("ATTENTION!! ONCE THE PROCEDURE STARTS, EVERY SINGLE DATA ON THE SELECTED DISK WILL BE DELETED. ARE YOU SURE YOU WANT TO FORMAT DRIVE: %s? [Y/N]\n>", drive);
+    printf("\nATTENTION!! ONCE THE PROCEDURE STARTS, EVERY SINGLE DATA ON THE SELECTED DISK WILL BE DELETED. ARE YOU SURE YOU WANT TO FORMAT DRIVE: %s? [Y/N]\n>", drive);
     scanf(" %c", yesno);
 
     if (*yesno != 'Y' && *yesno != 'y') {
@@ -119,11 +119,18 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    printf("ISO Successfully Written to Device! You may now Remove the USB Device!\n");
-    printf("Exiting Resuf\n");
+    printf("Done!\n");
 
+    printf("Closing USB File Descriptor...\n");
     close(usb_fd);
+    printf("Done!\n");
+
+    printf("Closing ISO's File Descriptor...\n");
     close(iso_fd);
+    printf("Done!\n");
+
+    printf("ISO Successfully Written to Device! You may now Remove the USB Device!\n");
+    printf("Exiting Resuf...\n");
 
     return EXIT_SUCCESS;
 
