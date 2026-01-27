@@ -121,6 +121,10 @@ int main(void) {
 
     printf("Done!\n");
 
+    printf("Validating USB...\n");
+    //Validate USB HERE
+    printf("Done!\n");
+
     printf("Closing USB File Descriptor...\n");
     close(usb_fd);
     printf("Done!\n");
