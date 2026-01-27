@@ -18,9 +18,15 @@ int main(void) {
     int usb_fd; //File Descriptor for Device
     int iso_fd; //File Descripto for ISO
 
-    printf("\n\nWelcome to Resuf! (REally Smart Usb Flasher).\n"); //Resuf = REally Smart Usb Flasher
-    printf("An Open-Source USB ISO Image Flasher!\n\n\n");
+    ssize_t bytes_read;
+    ssize_t bytes_read_usb;
 
+    ssize_t bytes_written;
+
+    printf("\n\nWelcome to Resuf! (REally Smart Usb Flasher).\n"); //Resuf = REally Smart Usb Flasher
+    printf("A Linux Open-Source USB ISO Image Flasher!\n\n\n");
+
+    //Fork to execute lsblk command
     pid_t pid = fork();
 
     if (pid < 0) {
@@ -100,10 +106,10 @@ int main(void) {
 
     printf("Writting ISO Image to Device...\n");
 
-    ssize_t bytes_read;
+
     while ((bytes_read = read(iso_fd, buffer, BUFFER_SIZE)) > 0) {
 
-        ssize_t bytes_written = write(usb_fd, buffer, bytes_read);
+        bytes_written = write(usb_fd, buffer, bytes_read);
         if (bytes_written != bytes_read) {
             perror("Write Error!!!\n");
             close(usb_fd);
@@ -122,6 +128,25 @@ int main(void) {
     printf("Done!\n");
 
     printf("Validating USB...\n");
+
+    close(usb_fd); //Closing USB fd to open it again with readonly permissions
+    usb_fd = open(drive, O_RDONLY); //Open USB fd with readonly permission to compare it with ISO after flashing
+
+    while ((bytes_read = read(iso_fd, buffer, BUFFER_SIZE)) > 0) {
+
+        bytes_read_usb = read(usb_fd, buffer, bytes_read);
+
+        if (bytes_read_usb != bytes_read) {
+
+            perror("RESUF Checked for the USB Validation and it Was Unsuccessfull! \n");
+            close(usb_fd);
+            close(iso_fd);
+            return EXIT_FAILURE;
+
+        }
+
+    }
+
     //Validate USB HERE
     printf("Done!\n");
 
