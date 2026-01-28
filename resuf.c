@@ -23,6 +23,8 @@ int main(void) {
 
     ssize_t bytes_written;
 
+    printf("PLEASE MAKE SURE YOU'RE RUNNING RESUF IN SUPER USER MODE (sudo), OR ROOT\n");
+
     printf("\n\nWelcome to Resuf! (REally Smart Usb Flasher).\n"); //Resuf = REally Smart Usb Flasher
     printf("A Linux Open-Source USB ISO Image Flasher!\n\n\n");
 
